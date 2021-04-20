@@ -180,30 +180,30 @@ def __get_metering_parse__(data: collections.OrderedDict) -> list:
             v = float(item['#text'])
             if ts.day == last_sunday.day and ts.hour == 2:
                 ts1 = datetime(ts.year, ts.month, ts.day, 0, 0, tzinfo=pytz.utc)
-                new_item = [{"timestamp": ts1, "value": v, "unit": u}]
+                new_item = [{"datetime": ts1, "value": v, "unit": u}]
                 return_values.extend(new_item)
                 continue
             if ts.day == last_sunday.day and ts.hour == 3:
                 v = float(item['#text'])
                 ts1 = datetime(ts.year, ts.month, ts.day, 1, 0, tzinfo=pytz.utc)
                 ts2 = datetime(ts.year, ts.month, ts.day, 2, 0, tzinfo=pytz.utc)
-                new_item = [{"timestamp": ts1, "value": v / 2, "unit": u},
-                            {"timestamp": ts2, "value": v / 2, "unit": u}]
+                new_item = [{"datetime": ts1, "value": v / 2, "unit": u},
+                            {"datetime": ts2, "value": v / 2, "unit": u}]
                 return_values.extend(new_item)
                 continue
         v = float(item['#text'])
         if hourly:
-            new_item['timestamp'] = pytz.timezone(timezone_source).localize(ts).astimezone(pytz.utc)
+            new_item['datetime'] = pytz.timezone(timezone_source).localize(ts).astimezone(pytz.utc)
         else:
-            new_item['timestamp'] = ts
+            new_item['datetime'] = ts
 
         new_item['value'] = v
         new_item['unit'] = u
         return_values.append(new_item)
 
     for i in return_values:
-        i['timestamp'] = i['timestamp'] - timedelta(hours=1)
-        i['timestamp'] = i['timestamp'].astimezone(pytz.timezone(timezone))
+        i['datetime'] = i['datetime'] - timedelta(hours=1)
+        i['datetime'] = i['datetime'].astimezone(pytz.timezone(timezone))
     return return_values
 
 
