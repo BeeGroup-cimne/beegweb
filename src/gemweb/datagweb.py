@@ -38,8 +38,11 @@ def __get_inventory_params__(access_token: str, category: str, search_by: str = 
 
 def __get_inventory_parse__(data: collections.OrderedDict) -> list:
     return_value = list(data['registre'].items())[1][1]
-    return_value = [dict(x) for x in return_value]
-    return return_value
+    if return_value:
+        return_value = [dict(x) for x in return_value]
+        return return_value
+    else:
+        return []
 
 
 def __get_invoice_inconsistencies_params__(access_token: str, category: str, id_: int, inconsistencies: str = "",
