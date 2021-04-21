@@ -38,11 +38,10 @@ def __get_inventory_params__(access_token: str, category: str, search_by: str = 
 
 def __get_inventory_parse__(data: collections.OrderedDict) -> list:
     return_value = list(data['registre'].items())[1][1]
-    if return_value:
-        return_value = [dict(x) for x in return_value]
-        return return_value
-    else:
+    if return_value is None:
         return []
+    return_value = [dict(x) for x in return_value]
+    return return_value
 
 
 def __get_invoice_inconsistencies_params__(access_token: str, category: str, id_: int, inconsistencies: str = "",
@@ -155,6 +154,8 @@ def __get_metering_parse__(data: collections.OrderedDict) -> list:
     dirty_values = data['resultat']['subministrament']['values']['value']
     return_values = []
     timezone = gemweb.timezone
+    if dirty_values is None:
+        return []
     for item in dirty_values:
         item = dict(item)
         new_item = {}
