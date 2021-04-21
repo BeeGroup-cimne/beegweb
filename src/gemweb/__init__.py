@@ -1,1 +1,1 @@
-from datagweb import gemweb, ENDPOINTS
+from .datagweb import gemweb, ENDPOINTS
