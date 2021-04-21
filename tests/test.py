@@ -1,7 +1,7 @@
 from datagweb import gemweb, ENDPOINTS
 from datetime import datetime
 import json
-f = open("config.json", "r")
+f = open("../config.json", "r")
 config = json.load(f)
 
 
