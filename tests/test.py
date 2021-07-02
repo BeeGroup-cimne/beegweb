@@ -8,7 +8,7 @@ config = json.load(f)
 gemweb.connection(config['gemweb']['username'], config['gemweb']['password'], timezone="Europe/Madrid")
 x = gemweb.gemweb_query(ENDPOINTS.GET_INVENTORY, category="subministraments")
 x2 = gemweb.gemweb_query(ENDPOINTS.GET_METERING, id_=x[0]['id'],
-                         date_from=datetime(2020, 1, 1), date_to=datetime.now(), period="horari")
+                         date_from=datetime(2019, 1, 1), date_to=datetime.now(), period="horari")
 
 gemweb.connection(config['gemweb']['username'], config['gemweb']['password'], timezone="Europe/Madrid")
 x = gemweb.gemweb_query(ENDPOINTS.GET_INVENTORY, category="entitats")

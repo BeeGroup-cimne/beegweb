@@ -316,6 +316,7 @@ class gemweb(object):
     @classmethod
     def gemweb_query(cls, endpoint, **kwargs):
         endpoint_enum = endpoint.value
+        data = []
         if endpoint is not ENDPOINTS.GET_METERING:
             params = endpoint_enum.params(access_token=cls.token, **kwargs)
             data = cls.__gemweb_request__(params=params, parse=endpoint_enum.parse)
@@ -327,5 +328,5 @@ class gemweb(object):
                     data = cls.__gemweb_request__(params=params, parse=endpoint_enum.parse)
                     break
                 except:
-                    data =[]
+                    pass
         return data
