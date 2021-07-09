@@ -9,12 +9,6 @@ import xmltodict
 timezone_source = "Europe/Madrid"
 
 
-def __daterange__(start_date, end_date):
-    while start_date < end_date:
-        start_date = start_date + relativedelta(months=1)
-        yield start_date
-
-
 def __dummy_parse__(data: collections.OrderedDict) -> list:
     return list(data)
 
@@ -297,7 +291,7 @@ class gemweb(object):
 
     @classmethod
     def __request_xml__(cls, params):
-        xml_response = requests.post(cls.url, data=params)
+        xml_response = requests.post(cls.url, data=params, timeout=30)
         if xml_response.ok:
             return xmltodict.parse(xml_response.content)
         else:
@@ -316,17 +310,6 @@ class gemweb(object):
     @classmethod
     def gemweb_query(cls, endpoint, **kwargs):
         endpoint_enum = endpoint.value
-        data = []
-        if endpoint is not ENDPOINTS.GET_METERING:
-            params = endpoint_enum.params(access_token=cls.token, **kwargs)
-            data = cls.__gemweb_request__(params=params, parse=endpoint_enum.parse)
-        else:
-            for d_ini in __daterange__(kwargs['date_from'], kwargs['date_to']):
-                kwargs['date_from'] = d_ini
-                try:
-                    params = endpoint_enum.params(access_token=cls.token, **kwargs)
-                    data = cls.__gemweb_request__(params=params, parse=endpoint_enum.parse)
-                    break
-                except:
-                    pass
+        params = endpoint_enum.params(access_token=cls.token, **kwargs)
+        data = cls.__gemweb_request__(params=params, parse=endpoint_enum.parse)
         return data
